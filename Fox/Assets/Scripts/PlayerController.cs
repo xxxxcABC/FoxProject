@@ -96,6 +96,10 @@ public class PlayerController : MonoBehaviour
             isJump = false;
             jumpcount = 2;
         }
+        else if (rb.velocity.y < -0.1f)
+        {
+            isJump = true;
+        }
         if (jumpPressed && isGround) {
             jumpAudio.Play();
             isJump = true;
@@ -104,6 +108,7 @@ public class PlayerController : MonoBehaviour
             jumpcount--;
             jumpPressed = false;
         }
+        
         else if (jumpPressed && jumpcount > 0 && isJump)
         {
             jumpAudio.Play();
