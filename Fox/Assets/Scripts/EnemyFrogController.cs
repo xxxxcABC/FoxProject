@@ -6,11 +6,12 @@ public class EnemyFrogController : Enemy
 {
     private Rigidbody2D rb;
     public float speed;
-    public Transform right, left;
+    public Transform right, left,search;
     public bool isFacingleft = true;
     private float rightx, leftx;
     public float jumpforce;
     public LayerMask ground;
+    public GameObject player;
     // Start is called before the first frame update
     protected override void  Start()
     {
@@ -27,25 +28,22 @@ public class EnemyFrogController : Enemy
     void Update()
     {
       SwitchAnim();
-      Move();
+      Search();
+     
     }
 
-    private void Move()
+    private void Search()
     {
-        if (isFacingleft&&rb.IsTouchingLayers(ground))
-        {       rb.velocity = new Vector2(-speed , jumpforce);
-                transform.localScale = new Vector3(1, 1, 1);
-            if (transform.position.x < leftx)
-            {
-                isFacingleft = false;
+        float Distance = player.transform.position.x-gameObject.transform.position.x;
+        if (Mathf.Abs(Distance) >= 10)
+        {
+            Move();
             }
-        }
-        else if (!isFacingleft && rb.IsTouchingLayers(ground)) {
-            rb.velocity = new Vector2(speed , jumpforce);
-            transform.localScale = new Vector3(-1, 1, 1);
-            if (transform.position.x > rightx) {
-                isFacingleft = true;
-            }
+        
+        else if(transform.position.x < rightx&&transform.position.x>leftx)
+        {
+            isFacingleft = player.transform.position.x < transform.position.x ? true : false;
+            Move();
         }
     }
 
@@ -59,5 +57,25 @@ public class EnemyFrogController : Enemy
             anim.SetBool("falling", true);
         }
     }
-    
+    private void Move()
+    {
+        if (isFacingleft && (rb.IsTouchingLayers(ground)))
+        {
+            rb.velocity = new Vector2(-speed, jumpforce);
+            transform.localScale = new Vector3(1, 1, 1);
+            if (transform.position.x < leftx)
+            {
+                isFacingleft = false;
+            }
+        }
+        else if (!isFacingleft && rb.IsTouchingLayers(ground))
+        {
+            rb.velocity = new Vector2(speed, jumpforce);
+            transform.localScale = new Vector3(-1, 1, 1);
+            if (transform.position.x > rightx)
+            {
+                isFacingleft = true;
+            }
+        }
+    }
 }

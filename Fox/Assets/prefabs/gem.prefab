@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9209002867215719155}
   - component: {fileID: 9209002867215719148}
   - component: {fileID: 9209002867215719154}
+  - component: {fileID: 4898500563923669482}
   m_Layer: 0
   m_Name: gem
   m_TagString: Collection
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -26391259
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: bd59bf2e866ed4529ae645637eb9c11d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -120,3 +121,16 @@ CircleCollider2D:
   m_Offset: {x: -0.00000011920929, y: 0.059138417}
   serializedVersion: 2
   m_Radius: 0.38595593
+--- !u!114 &4898500563923669482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9209002867215719150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8fbdc9feac56a4d8be974f65f25c14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: 5
