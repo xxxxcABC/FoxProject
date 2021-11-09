@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1103615965505168096}
   - component: {fileID: 1103615965505168098}
   - component: {fileID: 1103615965505168125}
-  - component: {fileID: 1460904816389596744}
+  - component: {fileID: 8513604712145980384}
   m_Layer: 7
   m_Name: cherry
   m_TagString: Collection
@@ -121,7 +121,7 @@ CircleCollider2D:
   m_Offset: {x: -0.20863283, y: 0}
   serializedVersion: 2
   m_Radius: 0.4695784
---- !u!114 &1460904816389596744
+--- !u!114 &8513604712145980384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

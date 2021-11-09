@@ -7,20 +7,20 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     private Animator anim;
-    public Collider2D bColl, hideColl;
+    public Collider2D bColl,hideColl;
     private Rigidbody2D rb;
     public float speed;
     public float jumpforce;
     public LayerMask ground;
-    public Transform groundCheck, upCheck;
+    public Transform groundCheck,upCheck;
     public int count = 0;
     public Text text;
-    private bool jumpPressed, crouchPressed;
+    private bool jumpPressed,crouchPressed;
     private bool isJump;
     public int jumpcount;
     public bool isGround;
-    public AudioSource jumpAudio, collectAudio, hurtAudio;
-
+    public AudioSource jumpAudio,collectAudio, hurtAudio;
+    private static readonly object Lock = new object();
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
             Move();
             crouch();
         }
-
+        
         jump();
         SwitchAnim();
     }
@@ -49,14 +49,14 @@ public class PlayerController : MonoBehaviour
         {
             crouchPressed = true;
         }
-        if (Input.GetButtonUp("crouch")) {
+        if (Input.GetButtonUp("crouch")){
             crouchPressed = false;
         }
         if (Input.GetButtonDown("Jump") && jumpcount > 0)
         {
             jumpPressed = true;
         }
-
+        
     }
     //移动//
     private void Move()
@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(horizontalMovement, 1, 1);
         }
         anim.SetFloat("isRunning", Mathf.Abs(horizontalMovement * speed));
-
+        
     }
     //跳跃
     public void jump() {
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
             jumpcount--;
             jumpPressed = false;
         }
-
+        
         else if (jumpPressed && jumpcount > 0 && isJump)
         {
             jumpAudio.Play();
@@ -122,10 +122,10 @@ public class PlayerController : MonoBehaviour
     private void SwitchAnim()
     {
         anim.SetBool("idling", false);
-        if (anim.GetBool("jumping"))
+            if (anim.GetBool("jumping"))
         {
-
-            if (rb.velocity.y < 0)
+            
+            if (rb.velocity.y <0)
             {
                 anim.SetBool("jumping", false);
                 anim.SetBool("falling", true);
@@ -151,82 +151,84 @@ public class PlayerController : MonoBehaviour
     //触发器交互
     private void OnTriggerEnter2D(Collider2D collision)
     {   //收集物品//
-        if (collision.tag == "Collection")
+        lock(Lock)
         {
-            collectAudio.Play();
-            Collections colle = collision.GetComponent<Collections>();
-            count += colle.CountPlus();
-            colle.Death();
-            text.text = count.ToString();
-            /*if (collision.name == "gem")
+            if (collision.tag == "Collection")
             {
-                count += 5;
-            }
-
-            {
-                count++;
-            }
-            Destroy(collision.gameObject);
-            text.text = count.ToString();
-        }*/
-            if (collision.tag == "DeadLine")
-            {
-                count++;
-                AudioSource BackMusic = GetComponent<AudioSource>();
-                BackMusic.enabled = false;
-                Restart(); }
-        } }
-        //敌人交互//
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.tag == "Enemy")
-            {
-                Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-                if (anim.GetBool("falling"))
+                collectAudio.Play();
+                Collections colle = collision.gameObject.GetComponent<Collections>();
+                count += colle.CountPlus();
+                colle.Death();
+                text.text = count.ToString();
+                /*if (collision.name == "gem")
                 {
-                    enemy.death();
-                    count++;
-                    rb.velocity = new Vector2(rb.velocity.x, jumpforce * Time.deltaTime);
-                    anim.SetBool("jumping", true);
-                    text.text = count.ToString();
+                    count += 5;
                 }
-                else if (!anim.GetBool("falling"))
+
                 {
-                    hurtAudio.Play();
-                    if (rb.position.x < collision.transform.position.x)
-                    {
-                        rb.velocity = new Vector2(-7, rb.velocity.y);
-                        anim.SetBool("hurt", true);
-                    }
-                    else if (rb.position.x > collision.transform.position.x)
-                    {
-                        rb.velocity = new Vector2(7, rb.velocity.y);
-                        anim.SetBool("hurt", true);
-                    }
+                    count++;
+                }
+                Destroy(collision.gameObject);
+                text.text = count.ToString();*/
+            } }
+        if (collision.tag == "DeadLine")
+        {
+            count++;
+            AudioSource BackMusic = GetComponent<AudioSource>();
+            BackMusic.enabled = false; 
+            Restart();        }
+    }
+    //敌人交互//
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if (anim.GetBool("falling"))
+            {
+                enemy.death();
+                count++;
+                rb.velocity = new Vector2(rb.velocity.x, jumpforce * Time.deltaTime);
+                anim.SetBool("jumping", true);
+                text.text = count.ToString();
+            }
+            else if (!anim.GetBool("falling"))
+            {
+                hurtAudio.Play();
+                if (rb.position.x < collision.transform.position.x)
+                {
+                    rb.velocity = new Vector2(-7, rb.velocity.y);
+                    anim.SetBool("hurt", true);
+                }
+                else if (rb.position.x > collision.transform.position.x)
+                {
+                    rb.velocity = new Vector2(7, rb.velocity.y);
+                    anim.SetBool("hurt", true);
                 }
             }
         }
-        //趴下
-        private void crouch()
+    }
+    //趴下
+    private void crouch()
+    {
+        if (Physics2D.OverlapCircle(upCheck.position, 0.1f, ground))
         {
-            if (Physics2D.OverlapCircle(upCheck.position, 0.1f, ground))
-            {
-                crouchPressed = false;
-            }
-            if (!Physics2D.OverlapCircle(upCheck.position, 0.1f, ground) && crouchPressed)
-            {
+            crouchPressed = false;
+        }
+        if (!Physics2D.OverlapCircle(upCheck.position, 0.1f, ground) && crouchPressed)
+        {
                 hideColl.enabled = false;
                 anim.SetBool("crouching", true);
 
-            } else if (!Physics2D.OverlapCircle(upCheck.position, 0.1f, ground) && !crouchPressed)
+        }else if (!Physics2D.OverlapCircle(upCheck.position, 0.1f, ground) && !crouchPressed)
             {
                 hideColl.enabled = true;
                 anim.SetBool("crouching", false);
             }
         }
-        //重置
-       private void Restart()
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-    } 
+    //重置
+    private void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    }
