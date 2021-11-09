@@ -160,20 +160,10 @@ public class PlayerController : MonoBehaviour
                 count += colle.CountPlus();
                 colle.Death();
                 text.text = count.ToString();
-                /*if (collision.name == "gem")
-                {
-                    count += 5;
-                }
-
-                {
-                    count++;
-                }
-                Destroy(collision.gameObject);
-                text.text = count.ToString();*/
             } }
+        //À¿Õˆ¥•∑¢
         if (collision.tag == "DeadLine")
         {
-            count++;
             AudioSource BackMusic = GetComponent<AudioSource>();
             BackMusic.enabled = false; 
             Restart();        }
