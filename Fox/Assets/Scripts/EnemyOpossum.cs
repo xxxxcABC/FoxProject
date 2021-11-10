@@ -27,18 +27,23 @@ public class EnemyOpossum : Enemy
     }
 
     private void Move()
-    {
-        if (IsFacingLeft && gameObject.transform.position.x > leftx)
+    {   
+        if (IsFacingLeft)
         {
             rb.velocity = new Vector2(-MoveSpeed, rb.velocity.y);
             gameObject.transform.localScale = new Vector3(1, 1, 1);
-            IsFacingLeft = true;
+            if (gameObject.transform.position.x < leftx)
+            {
+                IsFacingLeft = false;
+            }
         }
-        else if (gameObject.transform.position.x < rightx)
+        else
         {
             rb.velocity = new Vector2(MoveSpeed, rb.velocity.y);
             gameObject.transform.localScale = new Vector3(-1, 1, 1);
-            IsFacingLeft = false;
+            if(gameObject.transform.position.x>rightx)
+            {   IsFacingLeft = true;
+        }
         }
     }
 }
