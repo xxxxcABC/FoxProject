@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     public int jumpcount;
     public bool isGround;
     public AudioSource jumpAudio,collectAudio, hurtAudio;
-    private static readonly object Lock = new object();
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +37,6 @@ public class PlayerController : MonoBehaviour
             Move();
             crouch();
         }
-        
         jump();
         SwitchAnim();
     }
@@ -151,16 +149,19 @@ public class PlayerController : MonoBehaviour
     //触发器交互
     private void OnTriggerEnter2D(Collider2D collision)
     {   //收集物品//
-        lock(Lock)
-        {
+        
             if (collision.tag == "Collection")
             {
                 collectAudio.Play();
                 Collections colle = collision.gameObject.GetComponent<Collections>();
-                count += colle.CountPlus();
+                if (!colle.IsCollecting)
+                {
+                    count += colle.CountPlus();
+                }
                 colle.Death();
                 text.text = count.ToString();
-            } }
+            }
+        
         //死亡触发
         if (collision.tag == "DeadLine")
         {

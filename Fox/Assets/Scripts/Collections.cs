@@ -6,6 +6,7 @@ public class Collections : MonoBehaviour
 {
     protected Animator anim;
     protected Collider2D coll;
+    public bool IsCollecting;
     public int Score;
     // Start is called before the first frame update
     protected virtual void Start()
@@ -19,6 +20,7 @@ public class Collections : MonoBehaviour
         return 0;
     }
     public virtual void Death() {
+        this.IsCollecting = true;
         coll.enabled = false;
         anim.SetTrigger("Death");
     }
