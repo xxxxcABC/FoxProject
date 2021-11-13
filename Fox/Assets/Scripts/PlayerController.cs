@@ -166,15 +166,15 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "DeadLine")
         {
             AudioSource BackMusic = GetComponent<AudioSource>();
-            BackMusic.enabled = false; 
+            BackMusic.enabled = false;
+            PlayerHealthUI.PlayerCurrHealth = 0;
             Restart();        }
     }
     //µ–»ÀΩªª•//
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Enemy")
-        {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        {Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (anim.GetBool("falling"))
             {
                 enemy.death();
@@ -186,6 +186,7 @@ public class PlayerController : MonoBehaviour
             else if (!anim.GetBool("falling"))
             {
                 hurtAudio.Play();
+                PlayerHealthUI.PlayerCurrHealth -= enemy.Attack();
                 if (rb.position.x < collision.transform.position.x)
                 {
                     rb.velocity = new Vector2(-7, rb.velocity.y);

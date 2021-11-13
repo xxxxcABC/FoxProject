@@ -21,6 +21,7 @@ public class EnemyFrogController : Enemy
         leftx = left.position.x;
         Destroy(right.gameObject);
         Destroy(left.gameObject);
+        AttackNumber = 2f;
     }
 
     // Update is called once per frame
@@ -73,5 +74,4 @@ public class EnemyFrogController : Enemy
             anim.SetBool("falling", true);
         }
     }
-    
 }
