@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     protected Animator anim;
     protected Collider2D coll;
     protected AudioSource deathAudio;
+    protected float AttackNumber;
     // Start is called before the first frame update
     protected virtual void Start()
     {
