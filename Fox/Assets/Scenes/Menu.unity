@@ -390,6 +390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be228196bea650d40a53811554990b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseMenu: {fileID: 0}
+  AdMixer: {fileID: 0}
 --- !u!1 &777924437
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +701,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be228196bea650d40a53811554990b0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseMenu: {fileID: 0}
+  AdMixer: {fileID: 0}
 --- !u!1 &995279873
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +788,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 416715093}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: play
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -917,7 +921,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 416715093}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: quit
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

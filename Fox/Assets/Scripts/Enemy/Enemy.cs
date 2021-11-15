@@ -7,13 +7,14 @@ public class Enemy : MonoBehaviour
     protected Animator anim;
     protected Collider2D coll;
     protected AudioSource deathAudio;
-    public float AttackNumber;
+    protected float AttackNumber;
     // Start is called before the first frame update
     protected virtual void Start()
     {
         anim = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
         deathAudio = GetComponent<AudioSource>();
+        AttackNumber = 2;
     }
 
     public void JumpOn()

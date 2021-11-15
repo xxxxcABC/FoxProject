@@ -9,22 +9,24 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     public Collider2D bColl,hideColl;
     private Rigidbody2D rb;
-    public float speed;
-    public float jumpforce;
+    private float speed;
+    private float jumpforce;
     public LayerMask ground;
     public Transform groundCheck,upCheck;
-    public int count = 0;
+    private int count = 0;
     public Text text;
     private bool jumpPressed,crouchPressed;
     private bool isJump;
-    public int jumpcount;
-    public bool isGround;
+    private int jumpcount;
+    private bool isGround;
     public AudioSource jumpAudio,collectAudio, hurtAudio;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        jumpforce = 9;
+        speed = 5;
     }
 
     // Update is called once per frame
@@ -59,24 +61,6 @@ public class PlayerController : MonoBehaviour
     //ÒÆ¶¯//
     private void Move()
     {
-        /*float a = Input.GetAxis("Horizontal");
-        float b = Input.GetAxisRaw("Horizontal");
-        if (a != 0)
-        {
-            rb.velocity = new Vector2(a * speed * Time.deltaTime, rb.velocity.y);
-            anim.SetFloat("isRunning", Mathf.Abs(a));
-        }
-
-        if (b != 0)
-        {
-            transform.localScale = new Vector3(b, 1, 1);
-
-        }
-        if (Input.GetButtonDown("Jump") && bColl.IsTouchingLayers(ground))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpforce * Time.deltaTime);
-            anim.SetBool("jumping", true);
-        }*/
         float horizontalMovement = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(horizontalMovement * speed, rb.velocity.y);
 
